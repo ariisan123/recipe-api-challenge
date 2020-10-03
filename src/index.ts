@@ -1,21 +1,27 @@
 import "reflect-metadata";
-import {createConnection} from "typeorm";
-import {User} from "./entity/User";
+import { createConnection } from "typeorm";
+import * as express from "express";
+import { ApolloServer } from "apollo-server-express";
+import { buildSchema } from "type-graphql";
+import { UserResolver } from "./graphql/resolvers/user";
+import "../dotenv.config";
 
-createConnection().then(async connection => {
+const app = express();
 
-    console.log("Inserting a new user into the database...");
-    const user = new User();
-    user.firstName = "Timber";
-    user.lastName = "Saw";
-    user.age = 25;
-    await connection.manager.save(user);
-    console.log("Saved a new user with id: " + user.id);
+const main = async () => {
+  await createConnection();
+  console.log("DB Connected");
+  const schema = await buildSchema({ resolvers: [UserResolver] });
+  const server = new ApolloServer({
+    schema,
+    playground: true,
+    introspection: true
+  });
+  server.applyMiddleware({ app, path: "/recipes-challenge" });
 
-    console.log("Loading users from the database...");
-    const users = await connection.manager.find(User);
-    console.log("Loaded users: ", users);
+  app.listen(process.env.SV_PORT, () =>
+    console.log(`Server Connected on PORT ${process.env.SV_PORT}`)
+  );
+};
 
-    console.log("Here you can setup and run express/koa/any other framework.");
-
-}).catch(error => console.log(error));
+main();

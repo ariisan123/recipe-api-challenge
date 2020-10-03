@@ -1,18 +1,35 @@
-import {Entity, PrimaryGeneratedColumn, Column} from "typeorm";
+import { IsEmail } from "class-validator";
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  OneToMany,
+  BaseEntity,
+  BeforeInsert
+} from "typeorm";
+import { Recipe } from "./Recipe";
 
-@Entity()
-export class User {
+@Entity({ name: "users" })
+export class User extends BaseEntity {
+  @BeforeInsert()
+  toLowerCase() {
+    this.email = this.email.toLowerCase();
+    this.name = this.name.toLowerCase();
+  }
 
-    @PrimaryGeneratedColumn()
-    id: number;
+  @PrimaryGeneratedColumn("uuid")
+  id: string;
 
-    @Column()
-    firstName: string;
+  @Column({ type: "varchar" })
+  name: string;
 
-    @Column()
-    lastName: string;
+  @Column({ type: "varchar", unique: true })
+  @IsEmail()
+  email: string;
 
-    @Column()
-    age: number;
+  @Column({ type: "varchar" })
+  password: string;
 
+  @OneToMany((type) => Recipe, (recipes) => recipes.user)
+  recipes: Recipe[];
 }
