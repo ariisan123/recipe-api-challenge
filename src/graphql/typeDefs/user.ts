@@ -1,5 +1,5 @@
-import { Field, ID, InputType, ObjectType } from "type-graphql";
-import { TypeRecipe } from "./recipe";
+import { Field, ID, InputType, ObjectType } from 'type-graphql';
+import { TypeRecipe } from './recipe';
 
 interface User {
   id?: string;
@@ -51,10 +51,4 @@ export class LoginUser {
 
   @Field()
   password: string;
-
-  @Field({ nullable: true })
-  hashedPass?: string;
-
-  @Field({ nullable: true })
-  id?: string;
 }
