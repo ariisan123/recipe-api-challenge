@@ -3,18 +3,22 @@ import {
   PrimaryGeneratedColumn,
   Column,
   ManyToOne,
-  BeforeInsert
+  BeforeInsert,
+  BaseEntity
 } from "typeorm";
 import { Category } from "./Category";
 import { User } from "./User";
 
 @Entity({ name: "recipes" })
-export class Recipe {
+export class Recipe extends BaseEntity {
   @BeforeInsert()
-  toLowerCase() {
-    this.description = this.description.toLowerCase();
-    this.name = this.name.toLowerCase();
-    this.ingredients = this.ingredients.toLowerCase();
+  private toLowerCase() {
+    this.description = this.description.toLowerCase().trim();
+    this.name = this.name.toLowerCase().trim();
+    this.ingredients = this.ingredients.reduce((acc, element) => {
+      acc.push(element.toLowerCase().trim());
+      return acc;
+    }, []);
   }
 
   @PrimaryGeneratedColumn("uuid")
@@ -26,8 +30,8 @@ export class Recipe {
   @Column({ type: "varchar" })
   description: string;
 
-  @Column({ type: "varchar" })
-  ingredients: string;
+  @Column({ type: "json" })
+  ingredients: string[];
 
   @ManyToOne((type) => User, (user) => user.recipes)
   user: User;

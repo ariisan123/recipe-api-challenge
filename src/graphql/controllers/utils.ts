@@ -1,27 +1,25 @@
-import * as brcrypt from 'bcryptjs';
-import * as jwt from 'jsonwebtoken';
-import '../../../dotenv.config';
+import * as brcrypt from "bcryptjs";
+import * as jwt from "jsonwebtoken";
+import "../../../dotenv.config";
 
-export class Utils {
+export const Utils = {
   async createPass(password: string) {
     const hashedPass = await brcrypt.hash(password, 12);
     return hashedPass;
-  }
+  },
 
   async comparePass(password: string, hashedPass: string) {
     const isOk = await brcrypt.compare(password, hashedPass);
     return isOk;
-  }
+  },
 
   signJwt(id: string) {
-    const token = jwt.sign({ id }, process.env.SECRET, { expiresIn: '1d' });
+    const token = jwt.sign({ id }, process.env.SECRET, { expiresIn: "1d" });
     return { token };
-  }
+  },
 
-  verifyJwt(token: string): Payload {
-    const isOk: Payload = jwt.verify(token, process.env.SECRET);
-
-    console.log(isOk);
+  verifyJwt(token: string) {
+    const isOk = jwt.verify(token, process.env.SECRET);
     return isOk;
   }
-}
+};

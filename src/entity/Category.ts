@@ -3,15 +3,16 @@ import {
   PrimaryGeneratedColumn,
   Column,
   OneToMany,
-  BeforeInsert
+  BeforeInsert,
+  BaseEntity
 } from "typeorm";
 import { Recipe } from "./Recipe";
 
 @Entity({ name: "categories" })
-export class Category {
+export class Category extends BaseEntity {
   @BeforeInsert()
-  toLowerCase() {
-    this.name = this.name.toLowerCase();
+  LowerCaseAndTim() {
+    this.name = this.name.toLowerCase().trim();
   }
 
   @PrimaryGeneratedColumn("uuid")

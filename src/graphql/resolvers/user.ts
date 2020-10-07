@@ -1,36 +1,43 @@
 import {
   Arg,
   Ctx,
+  FieldResolver,
   Mutation,
-  Query,
   Resolver,
+  Root,
   UseMiddleware
-} from 'type-graphql';
-import { UserController } from '../controllers/user';
-import { LoginUser, SignUpUser, TypeToken, TypeUser } from '../typeDefs/user';
-import { userMiddleware } from '../middlewares/user';
-import { isAuth } from '../middlewares/isAuth';
-import { MyContext } from '../typeDefs/context';
+} from "type-graphql";
+import { userMiddleware } from "../middlewares/user";
+import { MyContext } from "../types/Context";
+import { RecipeType } from "../types/recipe";
+import { User } from "../../entity/User";
+import { Utils } from "../controllers/utils";
+import { Recipe } from "../../entity/Recipe";
+import { LoginInput, SignUpInput, TypeToken, UserType } from "../types/User";
 
-@Resolver()
-export class UserResolver extends UserController {
-  @Query()
-  @UseMiddleware(isAuth)
-  getuser(): TypeToken {
-    console.log('sdkfjksldfj');
-    return { token: 'asd1klfjsf' };
-  }
-
+@Resolver((of) => UserType)
+export class UserResolver {
   @Mutation(() => TypeToken)
   @UseMiddleware(userMiddleware.getUser, userMiddleware.equalPass)
-  async login(@Arg('userObj') userObj: LoginUser, @Ctx() context: MyContext) {
-    const { id } = context.session;
-    return this.signJwt(id);
+  login(@Arg("userObj") userObj: LoginInput, @Ctx() context: MyContext) {
+    const { userId } = context.req.session;
+    return Utils.signJwt(userId);
   }
 
-  @Mutation(() => TypeUser)
+  @Mutation(() => UserType)
   @UseMiddleware(userMiddleware.emailExist)
-  async signUp(@Arg('userObj') userObj: SignUpUser) {
-    return await this.createAndSave(userObj);
+  async signUp(@Arg("userObj") userObj: SignUpInput) {
+    const hashedpass = await Utils.createPass(userObj.password);
+    return await User.create({ ...userObj, password: hashedpass }).save();
+  }
+
+  @FieldResolver(() => [RecipeType])
+  async recipes(@Root() user: User) {
+    const result = await Recipe.find({
+      where: { user: user.id },
+      loadRelationIds: true
+    });
+    // console.log(result);
+    return result;
   }
 }

@@ -1,10 +1,9 @@
-import { User } from "../../entity/User";
+/* import { User } from "../../entity/User";
 import { Utils } from "./utils";
 
 export class UserController extends Utils {
   async getOne(filterObj: {}) {
     try {
-      console.log(filterObj);
       const result = await User.findOne({ where: filterObj });
       return result;
     } catch (err) {
@@ -22,3 +21,4 @@ export class UserController extends Utils {
     }
   }
 }
+ */
