@@ -4,12 +4,13 @@ import {
   Column,
   ManyToOne,
   BeforeInsert,
-  BaseEntity
+  BaseEntity,
+  DeleteDateColumn
 } from "typeorm";
 import { Category } from "./Category";
 import { User } from "./User";
 
-@Entity({ name: "recipes" })
+@Entity({ name: "recipes", synchronize: false })
 export class Recipe extends BaseEntity {
   @BeforeInsert()
   private toLowerCase() {
@@ -33,9 +34,12 @@ export class Recipe extends BaseEntity {
   @Column({ type: "json" })
   ingredients: string[];
 
+  @DeleteDateColumn()
+  delete_at: Date;
+
   @ManyToOne((type) => User, (user) => user.recipes)
-  user: User;
+  user: User | string;
 
   @ManyToOne((type) => Category, (category) => category.recipe)
-  category: Category;
+  category: Category | string;
 }

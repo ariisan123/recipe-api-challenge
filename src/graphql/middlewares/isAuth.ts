@@ -5,7 +5,8 @@ import { MyContext } from "../types/Context";
 export const isAuth: MiddlewareFn<MyContext> = async ({ context }, next) => {
   try {
     const { authorization } = context.req.headers;
-    if (!authorization) throw new Error("ERROR not login");
+    if (!authorization)
+      throw new Error("Error, you have to send the Authorization token");
     const token = authorization.split(" ")[1];
     Utils.verifyJwt(token);
     return next();

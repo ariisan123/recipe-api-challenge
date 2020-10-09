@@ -21,3 +21,12 @@ export class findCategoryInput {
   @Field({ nullable: true })
   name: string;
 }
+
+@InputType()
+export class UpdateCategoryInput {
+  @Field()
+  id: string;
+
+  @Field()
+  name: string;
+}

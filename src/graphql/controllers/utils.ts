@@ -4,13 +4,11 @@ import "../../../dotenv.config";
 
 export const Utils = {
   async createPass(password: string) {
-    const hashedPass = await brcrypt.hash(password, 12);
-    return hashedPass;
+    return await brcrypt.hash(password, 12);
   },
 
   async comparePass(password: string, hashedPass: string) {
-    const isOk = await brcrypt.compare(password, hashedPass);
-    return isOk;
+    return await brcrypt.compare(password, hashedPass);
   },
 
   signJwt(id: string) {
@@ -19,7 +17,6 @@ export const Utils = {
   },
 
   verifyJwt(token: string) {
-    const isOk = jwt.verify(token, process.env.SECRET);
-    return isOk;
+    return jwt.verify(token, process.env.SECRET);
   }
 };

@@ -4,7 +4,8 @@ import {
   Column,
   OneToMany,
   BeforeInsert,
-  BaseEntity
+  BaseEntity,
+  DeleteDateColumn
 } from "typeorm";
 import { Recipe } from "./Recipe";
 
@@ -20,6 +21,9 @@ export class Category extends BaseEntity {
 
   @Column({ type: "varchar", unique: true })
   name: string;
+
+  @DeleteDateColumn()
+  delete_at: Date;
 
   @OneToMany((type) => Recipe, (recipe) => recipe.category)
   recipe: Recipe;

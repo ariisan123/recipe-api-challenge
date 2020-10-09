@@ -31,13 +31,15 @@ export class UserResolver {
     return await User.create({ ...userObj, password: hashedpass }).save();
   }
 
-  @FieldResolver(() => [RecipeType])
+  @FieldResolver(() => [RecipeType], { nullable: true })
   async recipes(@Root() user: User) {
     const result = await Recipe.find({
       where: { user: user.id },
       loadRelationIds: true
     });
-    // console.log(result);
+    // const result = await ctx.categoryLoader.load(user.recipe as string);
+
+    console.log(result);
     return result;
   }
 }
