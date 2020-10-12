@@ -1,6 +1,6 @@
-import { Category } from "../../entity/Category";
-import { Recipe } from "../../entity/Recipe";
-import { User } from "../../entity/User";
+import { Category } from '../../models/Category';
+import { Recipe } from '../../models/Recipe';
+import { User } from '../../models/User';
 
 export type batchUser = (ids: string[]) => Promise<User[]>;
 export type batchRecipe = (ids: string[]) => Promise<Recipe[]>;

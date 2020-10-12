@@ -6,20 +6,20 @@ import {
   BeforeInsert,
   BaseEntity,
   DeleteDateColumn
-} from "typeorm";
-import { Recipe } from "./Recipe";
+} from 'typeorm';
+import { Recipe } from './Recipe';
 
-@Entity({ name: "categories" })
+@Entity({ name: 'categories' })
 export class Category extends BaseEntity {
   @BeforeInsert()
   LowerCaseAndTim() {
     this.name = this.name.toLowerCase().trim();
   }
 
-  @PrimaryGeneratedColumn("uuid")
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ type: "varchar", unique: true })
+  @Column({ type: 'varchar' })
   name: string;
 
   @DeleteDateColumn()

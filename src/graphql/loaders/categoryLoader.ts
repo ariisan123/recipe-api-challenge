@@ -1,6 +1,6 @@
-import * as DataLoader from "dataloader";
-import { Category } from "../../entity/Category";
-import { batchCategory } from "../types/Loaders";
+import * as DataLoader from 'dataloader';
+import { Category } from '../../models/Category';
+import { batchCategory } from '../types/Loaders';
 
 const batchCategory: batchCategory = async (categoryIds) => {
   try {

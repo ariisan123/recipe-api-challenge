@@ -1,7 +1,6 @@
-import { Field, ID, InputType, ObjectType } from "type-graphql";
-import { Category } from "../../entity/Category";
-import { CategoryType } from "./Category";
-import { UserType } from "./User";
+import { Field, ID, InputType, ObjectType } from 'type-graphql';
+import { CategoryType } from './Category';
+import { UserType } from './User';
 
 @ObjectType()
 export class RecipeType {
@@ -20,7 +19,7 @@ export class RecipeType {
   @Field((type) => UserType)
   user: UserType;
 
-  @Field((type) => CategoryType)
+  @Field((type) => CategoryType, { nullable: true })
   category: CategoryType;
 }
 
@@ -62,18 +61,3 @@ export class UpdateRecipeInput {
   @Field({ nullable: true })
   category?: string;
 }
-
-/* @InputType()
-export class RecipeFilterInput {
-  @Field({ nullable: true })
-  id: string;
-
-  @Field({ nullable: true })
-  name: string;
-
-  @Field({ nullable: true })
-  description: string;
-
-  @Field(() => [String], { nullable: true })
-  ingredients: [string];
-} */

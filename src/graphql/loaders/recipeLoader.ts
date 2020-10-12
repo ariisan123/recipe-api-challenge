@@ -1,6 +1,6 @@
-import * as DataLoader from "dataloader";
-import { Recipe } from "../../entity/Recipe";
-import { batchRecipe } from "../types/Loaders";
+import * as DataLoader from 'dataloader';
+import { Recipe } from '../../models/Recipe';
+import { batchRecipe } from '../types/Loaders';
 
 const batchRecipes: batchRecipe = async (recipeIds) => {
   try {

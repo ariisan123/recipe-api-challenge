@@ -1,6 +1,6 @@
-import * as DataLoader from "dataloader";
-import { User } from "../../entity/User";
-import { batchUser } from "../types/Loaders";
+import * as DataLoader from 'dataloader';
+import { User } from '../../models/User';
+import { batchUser } from '../types/Loaders';
 
 const batchUsers: batchUser = async (userIds) => {
   try {

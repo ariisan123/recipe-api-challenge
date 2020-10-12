@@ -1,5 +1,5 @@
-import { Field, ID, InputType, ObjectType } from "type-graphql";
-import { RecipeType } from "./recipe";
+import { Field, ID, InputType, ObjectType } from 'type-graphql';
+import { RecipeType } from './Recipe';
 
 @ObjectType()
 export class CategoryType {
