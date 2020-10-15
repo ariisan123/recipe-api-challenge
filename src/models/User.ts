@@ -1,4 +1,3 @@
-import { IsEmail } from "class-validator";
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -12,9 +11,9 @@ import { Recipe } from "./Recipe";
 @Entity({ name: "users" })
 export class User extends BaseEntity {
   @BeforeInsert()
-  toLowerCase() {
-    this.email = this.email.toLowerCase();
-    this.name = this.name.toLowerCase();
+  LowerCaseAndTim() {
+    this.email = this.email.toLowerCase().trim();
+    this.name = this.name.toLowerCase().trim();
   }
 
   @PrimaryGeneratedColumn("uuid")
@@ -24,7 +23,6 @@ export class User extends BaseEntity {
   name: string;
 
   @Column({ type: "varchar", unique: true })
-  @IsEmail()
   email: string;
 
   @Column({ type: "varchar" })

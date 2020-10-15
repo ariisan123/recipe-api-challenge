@@ -6,14 +6,14 @@ import {
   BeforeInsert,
   BaseEntity,
   DeleteDateColumn
-} from 'typeorm';
-import { Category } from './Category';
-import { User } from './User';
+} from "typeorm";
+import { Category } from "./Category";
+import { User } from "./User";
 
-@Entity({ name: 'recipes', synchronize: false })
+@Entity({ name: "recipes" })
 export class Recipe extends BaseEntity {
   @BeforeInsert()
-  private toLowerCase() {
+  LowerCaseAndTim() {
     this.description = this.description.toLowerCase().trim();
     this.name = this.name.toLowerCase().trim();
     this.ingredients = this.ingredients.reduce((acc, element) => {
@@ -22,16 +22,16 @@ export class Recipe extends BaseEntity {
     }, []);
   }
 
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn("uuid")
   id: string;
 
-  @Column({ type: 'varchar' })
+  @Column({ type: "varchar" })
   name: string;
 
-  @Column({ type: 'varchar' })
+  @Column({ type: "varchar" })
   description: string;
 
-  @Column({ type: 'json' })
+  @Column({ type: "json" })
   ingredients: string[];
 
   @DeleteDateColumn()

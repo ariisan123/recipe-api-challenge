@@ -1,18 +1,16 @@
-import { Arg, Query, Resolver, UseMiddleware } from 'type-graphql';
-import { filterByIngredient } from '../../controllers/IngredientsQuery';
-import { isAuth } from '../../middlewares/isAuth';
-import { isLoggedIn } from '../../middlewares/isLogged';
-import { RecipeType } from '../../types/Recipe';
+import { Args, Query, Resolver, UseMiddleware } from "type-graphql";
+import { filterByIngredient } from "../../utils/IngredientsQuery";
+import { isAuth } from "../../middlewares/isAuth";
+import { isLoggedIn } from "../../middlewares/isLogged";
+import { ingredientsArg } from "../../types/Args";
+import { RecipeType } from "../../types/Recipe";
 
 @Resolver()
 export class getRecipesByIngredients {
   @Query(() => [RecipeType])
   @UseMiddleware(isAuth, isLoggedIn)
-  async getRecipesByIngredients(
-    @Arg('ingredients', (type) => [String]) ingredients: string[]
-  ) {
+  async getRecipesByIngredients(@Args() { ingredients }: ingredientsArg) {
     try {
-      console.log(ingredients);
       return await filterByIngredient(ingredients);
     } catch (err) {
       console.log(err);

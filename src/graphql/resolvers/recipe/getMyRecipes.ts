@@ -1,9 +1,9 @@
-import { Ctx, Query, Resolver, UseMiddleware } from 'type-graphql';
-import { Recipe } from '../../../models/Recipe';
-import { isAuth } from '../../middlewares/isAuth';
-import { isLoggedIn } from '../../middlewares/isLogged';
-import { MyContext } from '../../types/Context';
-import { RecipeType } from '../../types/Recipe';
+import { Ctx, Query, Resolver, UseMiddleware } from "type-graphql";
+import { Recipe } from "../../../models/Recipe";
+import { isAuth } from "../../middlewares/isAuth";
+import { isLoggedIn } from "../../middlewares/isLogged";
+import { MyContext } from "../../types/Context";
+import { RecipeType } from "../../types/Recipe";
 
 @Resolver()
 export class getMyRecipes {

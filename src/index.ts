@@ -6,7 +6,6 @@ import { createConnection } from "typeorm";
 import { ApolloServer } from "apollo-server-express";
 import { getSchema } from "./graphql/schema";
 import { userLoader } from "./graphql/loaders/userLoader";
-import { recipeLoader } from "./graphql/loaders/recipeLoader";
 import { categoryLoader } from "./graphql/loaders/categoryLoader";
 
 const main = async () => {
@@ -21,7 +20,6 @@ const main = async () => {
         req,
         res,
         userLoader: userLoader(),
-        recipeLoader: recipeLoader(),
         categoryLoader: categoryLoader()
       }),
       playground: {
@@ -48,8 +46,11 @@ const main = async () => {
 
     server.applyMiddleware({ app, path: "/recipes-challenge" });
 
-    app.listen(process.env.SV_PORT, () =>
-      console.log(`Server Connected on PORT ${process.env.SV_PORT}`)
+    app.listen(process.env.PORT, () =>
+      console.log(`
+      Server Connected on PORT ${process.env.SV_PORT}
+      http://localhost:${process.env.PORT}/recipes-challenge
+      `)
     );
   } catch (err) {
     console.log(err);

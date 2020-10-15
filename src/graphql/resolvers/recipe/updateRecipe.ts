@@ -1,16 +1,16 @@
-import { Arg, Ctx, Mutation, Resolver, UseMiddleware } from 'type-graphql';
-import { Recipe } from '../../../models/Recipe';
-import { isAuth } from '../../middlewares/isAuth';
-import { isLoggedIn } from '../../middlewares/isLogged';
-import { MyContext } from '../../types/Context';
-import { RecipeType, UpdateRecipeInput } from '../../types/Recipe';
+import { Arg, Ctx, Mutation, Resolver, UseMiddleware } from "type-graphql";
+import { Recipe } from "../../../models/Recipe";
+import { isAuth } from "../../middlewares/isAuth";
+import { isLoggedIn } from "../../middlewares/isLogged";
+import { MyContext } from "../../types/Context";
+import { RecipeType, UpdateRecipeInput } from "../../types/Recipe";
 
 @Resolver()
 export class updateRecipe {
   @Mutation(() => RecipeType)
   @UseMiddleware(isAuth, isLoggedIn)
   async updateRecipe(
-    @Arg('recipe') recipe: UpdateRecipeInput,
+    @Arg("recipe") recipe: UpdateRecipeInput,
     @Ctx() ctx: MyContext
   ) {
     try {
@@ -19,12 +19,11 @@ export class updateRecipe {
         where: { user: userId, id: recipe.id },
         loadRelationIds: true
       });
-      if (!exist) throw new Error('Recipe not found');
+      if (!exist) throw new Error("Recipe not found");
       const updatedRecipe: Recipe = await Recipe.save({
         ...exist,
         ...(recipe as any)
       });
-      console.log(updatedRecipe);
       return updatedRecipe;
     } catch (err) {
       console.log(err);

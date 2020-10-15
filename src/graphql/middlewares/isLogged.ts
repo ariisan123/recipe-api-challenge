@@ -6,7 +6,7 @@ export const isLoggedIn: MiddlewareFn<MyContext> = async (
   next
 ) => {
   try {
-    if (!context.req.session.userId) throw new Error("Login first!");
+    if (!context.req.session.userId) throw new Error("You are not logged in!");
     return next();
   } catch (err) {
     return err;
